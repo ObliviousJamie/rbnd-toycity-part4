@@ -5,14 +5,35 @@ require 'csv'
 class Udacidata
     @@data_path = File.dirname(__FILE__) + "/../data/data.csv"
 
-    def self.create(options={})
-        #New product created
-        product = self.new(options)
-        #Product written to file
-        CSV.open(@@data_path, "a+") do |csv|
-            csv << [product.id,product.brand,product.name, product.price]
+    #Methods called on self
+    class << self
+
+        def create(attributes = nil)
+            #New product created
+            product = self.new attributes
+            #Product written to file
+            #puts product.name
+            CSV.open(@@data_path, "ab") do |csv|
+                csv << [product.id,product.brand,product.name, product.price]
+            end
+            return product
         end
-        return product
+
+        def all
+            items = Array.new
+            CSV.foreach(@@data_path, headers: true) do |row|
+                id = row['id']
+                brand = row['brand']
+                name = row['name']
+                price = row['price']
+                items << self.new(id:id, brand:brand, name:name, price:price)
+            end
+            return items
+        end
+
     end
+
+    private
+
 
 end
