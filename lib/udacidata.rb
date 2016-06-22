@@ -12,6 +12,7 @@ class Udacidata
         CSV.open(@@data_path, "a+") do |csv|
             csv << [product.id,product.brand,product.name, product.price]
         end
+        return product
     end
 
 end
