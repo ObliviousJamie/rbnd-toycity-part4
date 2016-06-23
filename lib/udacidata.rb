@@ -64,10 +64,12 @@ class Udacidata
         end
 
         private
+
         #Reads the latest information from CSV
         def latest_data
             CSV.read(@@data_path,headers: true)
         end
+
 
         #Rewrites the file with new data
         def rewrite(data)
@@ -80,7 +82,15 @@ class Udacidata
         end
     end
 
-    private
+    def update(options={})
+        data = Udacidata.send(:latest_data)
+        @brand = options[:brand] if brand
+        @price = options[:price] if price 
+        data.each{|item| (item['brand'] = @brand) && (item['price'] = @price) if @id.to_s == item["id"].to_s}
+        Udacidata.send(:rewrite,data )
+        return self
+    end
+
 
 
 
