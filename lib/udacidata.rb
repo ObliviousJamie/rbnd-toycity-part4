@@ -31,6 +31,7 @@ class Udacidata
             return items
         end
 
+        #Creates finder methods find_by_name and find_by_brand
         create_finder_methods("brand","name")
 
         def first(number = 1)
@@ -54,14 +55,13 @@ class Udacidata
             return Product.new(id:killed['id'],brand:killed['brand'],name:killed['name'], price:killed['price'])
         end
 
-
-        #def find_by_brand(brand)
-        #    all.select{|item| item.brand == brand}[0]
-        #end
-
-        #def find_by_name(name)
-        #    all.select{|item| item.name == name}[0]
-        #end
+        def where(options={})
+            results = all
+            options.each do |key, value|
+                results = results.keep_if{|item| (item.send key.to_sym) == value} 
+            end
+            return results.to_a
+        end
 
         private
         #Reads the latest information from CSV
