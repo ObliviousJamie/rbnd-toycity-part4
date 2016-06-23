@@ -9,16 +9,16 @@ module Analyzable
         brand = count_by_brand products
         name = count_by_name products
         
-        report << "Inventory by brand:"
+        report << "Inventory by brand:\n"
 
         brand.each do |key, value|
-            report << "  - #{key}: #{value}"
+            report << "  - #{key}: #{value}\n"
         end
         
-        report << "Inventory by name:"
+        report << "Inventory by name:\n"
 
         name.each do |key, value|
-            report << "  - #{key}: #{value}"
+            report << "  - #{key}: #{value}\n"
         end
         return report
 

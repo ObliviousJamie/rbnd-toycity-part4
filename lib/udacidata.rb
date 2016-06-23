@@ -44,13 +44,16 @@ class Udacidata
         end
 
         def find(id)
-            all.select{|item| item.id == id}[0]
+            result = all.select{|item| item.id == id}[0]
+            raise ProductNotFound, "Product of id:#{id} not found" if result == nil
+            return result
         end
 
         def destroy(number)
             data = latest_data
             killed = nil
             data.delete_if{|item| item["id"] == number.to_s && killed = item}
+            raise ProductNotFound, "Product of id:#{number} not found" if  killed == nil
             rewrite(data)
             return Product.new(id:killed['id'],brand:killed['brand'],name:killed['name'], price:killed['price'])
         end
