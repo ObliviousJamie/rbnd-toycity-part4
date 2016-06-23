@@ -39,6 +39,10 @@ class Udacidata
         def last(number = 1)
             number == 1 ? result = all.last : result = all.last(number)
         end
+
+        def find(id)
+            all.select{|item| item.id == id}[0]
+        end
     end
 
     private
