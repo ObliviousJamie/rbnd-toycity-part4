@@ -35,6 +35,10 @@ class Udacidata
             number == 1 ? result = all.first : result = all.take(number)
             return result
         end
+
+        def last(number = 1)
+            number == 1 ? result = all.last : result = all.last(number)
+        end
     end
 
     private
