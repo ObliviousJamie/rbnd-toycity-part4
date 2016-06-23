@@ -31,6 +31,10 @@ class Udacidata
             return items
         end
 
+        def first(number = 1)
+            number == 1 ? result = all.first : result = all.take(number)
+            return result
+        end
     end
 
     private
