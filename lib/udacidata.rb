@@ -12,7 +12,6 @@ class Udacidata
             #New product created
             product = self.new attributes
             #Product written to file
-            #puts product.name
             CSV.open(@@data_path, "ab") do |csv|
                 csv << [product.id,product.brand,product.name, product.price]
             end
@@ -43,9 +42,35 @@ class Udacidata
         def find(id)
             all.select{|item| item.id == id}[0]
         end
+
+        def destroy(number)
+            data = latest_data
+            killed = nil
+            data.delete_if{|item| item["id"] == number.to_s && killed = item}
+            rewrite(data)
+            return Product.new(id:killed['id'],brand:killed['brand'],name: killed['name'], price:killed['price'])
+        end
+
+        private
+        #Reads the latest information from CSV
+        def latest_data
+            CSV.read(@@data_path,headers: true)
+        end
+
+        #Rewrites the file with new data
+        def rewrite(data)
+            CSV.open(@@data_path, "wb") do |csv|
+                csv << ["id", "brand", "product", "price"]
+                data.each do |item|
+                    csv << item
+                end
+            end
+        end
     end
 
     private
+
+
 
 
 end
